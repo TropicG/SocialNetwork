@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DefaultUserProfile implements UserProfile {
+public final class DefaultUserProfile implements UserProfile {
 
     private String username;
     private Set<Interest> interests;
