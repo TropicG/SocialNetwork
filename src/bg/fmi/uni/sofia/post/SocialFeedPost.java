@@ -3,10 +3,7 @@ package bg.fmi.uni.sofia.post;
 import bg.fmi.uni.sofia.user.UserProfile;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class SocialFeedPost implements Post {
 
@@ -23,7 +20,7 @@ public final class SocialFeedPost implements Post {
         this.author = author;
         this.timeOfUpload = LocalDateTime.now();
         this.content = content;
-        this.reactions = new HashMap<>();
+        this.reactions = new EnumMap<>(ReactionType.class);
     }
 
     @Override
@@ -35,8 +32,12 @@ public final class SocialFeedPost implements Post {
             reactions.put(reactionType, setUsers);
         }
         else {
-            if(reactions.get(reactionType).contains(userProfile)) return false;
-            else reactions.get(reactionType).add(userProfile);
+            //if the user has an old reaction, we remove it
+            for (Set<UserProfile> value : reactions.values()) {
+                value.remove(userProfile);
+            }
+
+            reactions.get(reactionType).add(userProfile);
         }
 
         return true;
@@ -97,7 +98,11 @@ public final class SocialFeedPost implements Post {
         return reactions;
     }
 
+    @Override
+    public String toString(){
 
+        return "Unique ID:[" +  uniqueId + "] Author:[" + author.getUsername() + "] Content:[" + content + "]" + '\n' + reactions.toString();
+    }
 
 
 }
