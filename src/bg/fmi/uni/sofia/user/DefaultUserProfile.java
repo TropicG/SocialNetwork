@@ -42,12 +42,12 @@ public final class DefaultUserProfile implements UserProfile {
     @Override
     public boolean addFriend(UserProfile userProfile) {
 
-        if(!friends.contains(userProfile)) {
+        if(friends.contains(userProfile)) {
             System.out.println("The user is already added");
             return false;
         }
 
-        return friends.contains(userProfile);
+        return friends.add(userProfile);
     }
 
     @Override
