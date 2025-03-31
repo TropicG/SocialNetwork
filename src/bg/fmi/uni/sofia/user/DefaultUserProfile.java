@@ -1,5 +1,10 @@
 package bg.fmi.uni.sofia.user;
 
+import bg.fmi.uni.sofia.exceptions.InterestNotThereException;
+import bg.fmi.uni.sofia.exceptions.InterestAlreadyAddedException;
+import bg.fmi.uni.sofia.exceptions.UserAlreadyAddedException;
+import bg.fmi.uni.sofia.exceptions.UserNotThereException;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,10 +23,9 @@ public final class DefaultUserProfile implements UserProfile {
     }
 
     @Override
-    public boolean addInterest(Interest interest) {
+    public boolean addInterest(Interest interest) throws InterestAlreadyAddedException {
         if(interests.contains(interest)) {
-            System.out.println("The interest is already added");
-            return false;
+            throw new InterestAlreadyAddedException("The Interest is already added");
         }
 
         interests.add(interest);
@@ -29,10 +33,9 @@ public final class DefaultUserProfile implements UserProfile {
     }
 
     @Override
-    public boolean removeInterest(Interest interest) {
+    public boolean removeInterest(Interest interest) throws InterestNotThereException {
         if(!interests.contains(interest)) {
-            System.out.println("No found interest");
-            return false;
+            throw new InterestNotThereException("The interest is already added");
         }
 
         interests.remove(interest);
@@ -40,21 +43,18 @@ public final class DefaultUserProfile implements UserProfile {
     }
 
     @Override
-    public boolean addFriend(UserProfile userProfile) {
-
+    public boolean addFriend(UserProfile userProfile) throws UserAlreadyAddedException{
         if(friends.contains(userProfile)) {
-            System.out.println("The user is already added");
-            return false;
+            throw new UserAlreadyAddedException("The user is already added");
         }
 
         return friends.add(userProfile);
     }
 
     @Override
-    public boolean unfriend(UserProfile userProfile) {
+    public boolean unfriend(UserProfile userProfile) throws UserNotThereException{
         if(!friends.contains(userProfile)) {
-            System.out.println("The user is not there");
-            return false;
+            throw new UserNotThereException("The user is not there");
         }
 
         return friends.remove(userProfile);
