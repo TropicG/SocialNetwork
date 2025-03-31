@@ -17,13 +17,18 @@ public final class DefaultUserProfile implements UserProfile {
     private Set<UserProfile> friends;
 
     public DefaultUserProfile(String username) {
-        this.username = username;
+        this.username = username.isEmpty() ? "Username" : username;
         interests = new HashSet<>(Interest.TOTAL_NUMBER_INTERESTS);
         friends = new HashSet<>();
     }
 
     @Override
     public boolean addInterest(Interest interest) throws InterestAlreadyAddedException {
+
+        if(interest == null) {
+            throw new NullPointerException("Null passed as interest");
+        }
+
         if(interests.contains(interest)) {
             throw new InterestAlreadyAddedException("The Interest is already added");
         }
@@ -34,6 +39,11 @@ public final class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean removeInterest(Interest interest) throws InterestNotThereException {
+
+        if(interest == null) {
+            throw new NullPointerException("Null passed as interest");
+        }
+
         if(!interests.contains(interest)) {
             throw new InterestNotThereException("The interest is already added");
         }
@@ -44,6 +54,11 @@ public final class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean addFriend(UserProfile userProfile) throws UserAlreadyAddedException{
+
+        if(userProfile == null) {
+            throw new NullPointerException("Null passed as userProfile");
+        }
+
         if(friends.contains(userProfile)) {
             throw new UserAlreadyAddedException("The user is already added");
         }
@@ -53,6 +68,11 @@ public final class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean unfriend(UserProfile userProfile) throws UserNotThereException{
+
+        if(userProfile == null) {
+            throw new NullPointerException("Null passed as userProfile");
+        }
+
         if(!friends.contains(userProfile)) {
             throw new UserNotThereException("The user is not there");
         }
